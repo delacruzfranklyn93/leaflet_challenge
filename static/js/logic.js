@@ -5,7 +5,7 @@ var url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.g
 // 'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson'
 
 //production URL
-// "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
+"https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
 
 // create a map object
 var myMap = L.map("mapid", {
@@ -23,7 +23,7 @@ var myMap = L.map("mapid", {
 
   // retrieve the data using  D3
 d3.json(url).then(function(data){
-   
+    console.log(data)
     // Start for loop to add the new markers 
     for (var i = 0; i < data.features.length; i++){
 
@@ -55,6 +55,12 @@ d3.json(url).then(function(data){
                 break;
         }
 
+        // create the variables for your popup
+        var date = moment(data.features[i].properties.time).format('MMMM Do YYYY')
+        var time =  moment(data.features[i].properties.time).format('h:mm:ss a')
+        var loc = data.features[i].properties.place
+        var mag = data.features[i].properties.mag
+
         // Create the circles for each earthquake report and add to the baseMap layer.
         L.circle(coords, {
             opacity: .5,
@@ -63,12 +69,14 @@ d3.json(url).then(function(data){
             color: 'black',
             fillColor: color,
             radius: 7000 * data.features[i].properties.mag
-    }).addTo(myMap)
+    }).bindPopup(`<p align = "left"> <strong>Date:</strong> ${date} <br> <strong>Time:</strong>${time} <br>
+     <strong>Location:</strong> ${loc} <br> <strong>Magnitude:</strong> ${mag} </p>`).addTo(myMap)
 
-
+    newMarker = L.layer
 }});
 
 var legend = L.control({position: 'bottomright'});
+
 
 legend.onAdd = function (){
     var div = L.DomUtil.create('div', 'info legend');
@@ -84,8 +92,6 @@ legend.onAdd = function (){
     var labels = [];
     // loop through our density intervals and generate a label with a colored square for each interval
     grades.forEach(function(grade, index){
-        console.log(grade)
-        console.log(colors[index])
         labels.push("<div class = 'row'><li style=\"background-color: " + colors[index] +  "; width: 10px"+ "; height: 10px" + "\"></li>" + "<li>" + grade + "</li></div>");
     })
   
@@ -96,7 +102,7 @@ legend.onAdd = function (){
 
 legend.addTo(myMap);
 
-("<li style= 'background-color: purple'></li>")
+
 
 
 
