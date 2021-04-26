@@ -92,7 +92,7 @@ legend.onAdd = function (){
     var labels = [];
     // loop through our density intervals and generate a label with a colored square for each interval
     grades.forEach(function(grade, index){
-        labels.push("<div class = 'row'><li style=\"background-color: " + colors[index] +  "; width: 10px"+ "; height: 10px" + "\"></li>" + "<li>" + grade + "</li></div>");
+        labels.push("<div class = 'row'><li style=\"background-color: " + colors[index] +  "; width: 20px"+ "; height: 15px" + "\"></li>" + "<li>" + grade + "</li></div>");
     })
   
     div.innerHTML += "<ul>" + labels.join("") +"</ul>";
@@ -101,6 +101,8 @@ legend.onAdd = function (){
 };
 
 legend.addTo(myMap);
+
+// "<div class = 'row'><li style=\"background-color: " + colors[index] +  "; width: 15px"+ "; height: 15px" + "\"></li>" + "<li>" + grade + "</li></div>"
 
 
 
